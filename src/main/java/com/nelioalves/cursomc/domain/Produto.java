@@ -12,6 +12,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Produto  implements Serializable {
 	
@@ -24,6 +26,7 @@ public class Produto  implements Serializable {
 	private Double preco;
 	
 	// Um produto tem várias categorias
+	@JsonBackReference  // Do outro lado da associação (categoria) buscou os objetos agora não será mais buscado, para não causar loop infinito
 	@ManyToMany
 	@JoinTable(name="PRODUTO_CATEGORIA", 
 			   joinColumns= @JoinColumn(name="produto_id"),
@@ -37,6 +40,7 @@ public class Produto  implements Serializable {
 		this.nome = nome;
 		this.preco = preco;
 	}
+	
 	
 	public Produto () {		
 	}
