@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.nelioalves.cursomc.domain.enums.TipoCliente;
 
@@ -42,6 +43,7 @@ public class Cliente  implements Serializable {
 	@CollectionTable(name = "TELEFONE") // Cria a tabela de entidade fraca
 	private Set<String> telefones = new HashSet<>();
 	
+	@JsonBackReference   // Não retorna os pedidos do cliente para não gerar referencia ciclica o pedido já tem os dados do cliente
 	@OneToMany(mappedBy="cliente")  // Um cliente possui muitos pedido
 	private List<Pedido> pedidos = new ArrayList<>();
 	

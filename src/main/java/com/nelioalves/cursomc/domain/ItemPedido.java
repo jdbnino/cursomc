@@ -5,11 +5,14 @@ import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ItemPedido implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	@JsonIgnore   // Não será serializado por ser chave composta
 	@EmbeddedId // Id do tipo embutido em um auxiliar
 	private ItemPedidoPK id = new ItemPedidoPK();
 	
@@ -32,11 +35,13 @@ public class ItemPedido implements Serializable {
 	}
 
 	// Retorna a chave estrangeira
-	
+	@JsonIgnore   // Necessario ignorar para não gerar referencia ciclica
 	public Pedido getPedido() {
 		return id.getPedido();
 	}
 	
+	// @JsonIgnore   // Necessario ignorar para não gerar referencia ciclica
+	// O produto é necessário aparecer no json não pode ser ignore
 	public Produto getProduto() {
 		return id.getProduto();
 	}

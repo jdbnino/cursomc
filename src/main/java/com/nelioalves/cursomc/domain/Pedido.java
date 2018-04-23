@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Pedido   implements Serializable {
 	
@@ -23,13 +26,17 @@ public class Pedido   implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
+	@JsonFormat( pattern="dd/MM/yyyy hh:mm")   // Formata a data do lançamento
 	private Date instante;
 	
 	// Fez o mapeamento bidirecional uma para um  - e garante que o mesmo id do pedido seja o mesmo do pagamento
+	@JsonManagedReference   // Permite buscar os dados do pagamento no pedido - mas a classe pagamento não ira buscar os pedidos
 	@OneToOne( cascade=CascadeType.ALL, mappedBy="pedido" )  // cascade - Sem esta opção ocorre um erro de entidade transiente no momento de salvar
 	private Pagamento pagamento;
 	
 	// Associação bi direcional um pedido tem um cliente e um cliente tem vários pedidos
+	@JsonManagedReference    // Tras os dados do cliente
 	@ManyToOne
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
@@ -40,6 +47,7 @@ public class Pedido   implements Serializable {
 	private Endereco enderecoDeEntrega;
 
 	// Fazer o mesmo processo no produto pedido --> produto
+	// Não usa o JsonMangedReference isto já automático - lembrando que o itempedidopk esta ifgnorando json
 	@OneToMany(mappedBy="id.pedido")  // Informa que quem mapeou foi o id.pedido
 	private Set<ItemPedido> itens = new HashSet<>();  // A classe Set garante que não terá itens repedidos no mesmo pedido
 	
