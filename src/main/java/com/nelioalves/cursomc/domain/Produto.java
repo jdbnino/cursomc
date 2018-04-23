@@ -10,12 +10,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -30,7 +29,8 @@ public class Produto  implements Serializable {
 	private Double preco;
 	
 	// Um produto tem várias categorias
-	@JsonBackReference  // Do outro lado da associação (categoria) buscou os objetos agora não será mais buscado, para não causar loop infinito
+//	@JsonBackReference  // Do outro lado da associação (categoria) buscou os objetos agora não será mais buscado, para não causar loop infinito
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name="PRODUTO_CATEGORIA", 
 			   joinColumns= @JoinColumn(name="produto_id"),

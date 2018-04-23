@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Pedido   implements Serializable {
@@ -31,12 +30,12 @@ public class Pedido   implements Serializable {
 	private Date instante;
 	
 	// Fez o mapeamento bidirecional uma para um  - e garante que o mesmo id do pedido seja o mesmo do pagamento
-	@JsonManagedReference   // Permite buscar os dados do pagamento no pedido - mas a classe pagamento não ira buscar os pedidos
+//	@JsonManagedReference   // Permite buscar os dados do pagamento no pedido - mas a classe pagamento não ira buscar os pedidos
 	@OneToOne( cascade=CascadeType.ALL, mappedBy="pedido" )  // cascade - Sem esta opção ocorre um erro de entidade transiente no momento de salvar
 	private Pagamento pagamento;
 	
 	// Associação bi direcional um pedido tem um cliente e um cliente tem vários pedidos
-	@JsonManagedReference    // Tras os dados do cliente
+//	@JsonManagedReference    // Tras os dados do cliente
 	@ManyToOne
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;

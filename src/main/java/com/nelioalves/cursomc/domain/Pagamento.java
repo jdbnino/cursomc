@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nelioalves.cursomc.domain.enums.EstadoPagamento;
 
 @Entity
@@ -29,7 +29,8 @@ public abstract class Pagamento   implements Serializable {  // A classe fica ab
 	// Transformou o enum em código, caso contrario retorna o numero dele no array
 	private Integer estado;  // Ira pegar o id do enum e não sua posição no array
 	
-	@JsonBackReference   // Não retorna os dados do pedido para não gerar referencia ciclica  - somente pedido retorna dados do pagamento
+//	@JsonBackReference   // Não retorna os dados do pedido para não gerar referencia ciclica  - somente pedido retorna dados do pagamento
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name="pedido_id")
 	@MapsId                             // Tera o mesmo id do pedido no pagamento
